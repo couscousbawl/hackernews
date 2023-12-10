@@ -15,14 +15,18 @@ model link {
   createdAt   DateTime @default(now())
   description String
   url         String
-  postedBy    user?    @relation(fields: [postedById], references: [id])
-  postedById  String?  @db.ObjectId
+  postedBy    user     @relation(name: "postedBy", fields: [postedById], references: [id])
+  postedById  String   @db.ObjectId
+  voters      user[]   @relation(name: "Votes", fields: [votersIds], references: [id])
+  votersIds   String[] @db.ObjectId
 }
 
 model user {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String @unique
+  email    String   @unique
   password String
-  links    link[]
+  links    link[]   @relation(name: "postedBy")
+  votes    link[]   @relation(name: "Votes", fields: [linksIds], references: [id])
+  linksIds String[] @db.ObjectId
 }

@@ -7,13 +7,22 @@ export const Link = objectType({
         t.nonNull.string("id"); // 3 
         t.nonNull.string("description"); // 4
         t.nonNull.string("url"); // 5
-        t.field("postedBy", {   // 1
+        t.nonNull.dateTime("createdAt"); //6
+        t.field("postedBy", {   // 7
             type: "User",
-            resolve(parent, args, context) {  // 2
+            resolve(parent, args, context) {  // 8
                 return context.prisma.link
                     .findUnique({ where: { id: parent.id } })
                     .postedBy();
             },
+        });
+        t.nonNull.list.nonNull.field("voters", {  // 9
+            type: "User",
+            resolve(parent, args, context) {
+                return context.prisma.link
+                    .findUnique({ where: { id: parent.id } })
+                    .voters();
+            }
         });
     },
 });
