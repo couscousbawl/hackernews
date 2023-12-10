@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server";
-import { context } from "./context";  
+import { context } from "./context";
 
 // 1
 import { schema } from "./schema";
